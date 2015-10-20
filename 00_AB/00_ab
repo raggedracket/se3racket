@@ -1,0 +1,17 @@
+#lang racket
+(define (calcg sec) (/ 9.8 (expt sec 2)))
+(define (calcv g t) (* g t))
+(define (calcs g t) (* (/ 1 2) g (expt t 2)))
+(define (calcE m v) (calcs m v))
+(define g 9.8)
+
+
+(define (fallzeit strecke)
+  (sqrt (/ strecke (* 0.5 g))))
+(define (vimpact strecke )
+  (* (fallzeit strecke) g))
+(define (kenergie strecke gewicht )
+  (* (/ 1 2) gewicht (expt (vimpact strecke) 2)))
+
+(define (foo name strecke gewicht)
+  (printf "~a:\nFallzeit\t~a\nAuftreffg\t~a\nkEnergie\t~a\n" name (fallzeit strecke) (vimpact strecke) (kenergie strecke gewicht)))
