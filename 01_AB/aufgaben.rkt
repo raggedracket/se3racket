@@ -90,21 +90,22 @@
         [else "n"]))
 
 (define (Himmelsrichtung->Grad kuerzel)
-  (cond [(equal? kuerzel "n"  ) (*  0 11.25)]
-        [(equal? kuerzel "nne") (*  2 11.25)]
-        [(equal? kuerzel "ne" ) (*  4 11.25)]
-        [(equal? kuerzel "ene") (*  6 11.25)]
-        [(equal? kuerzel "e"  ) (*  8 11.25)]
-        [(equal? kuerzel "ees") (* 10 11.25)]
-        [(equal? kuerzel "es" ) (* 12 11.25)]
-        [(equal? kuerzel "ses") (* 14 11.25)]
-        [(equal? kuerzel "s"  ) (* 16 11.25)]
-        [(equal? kuerzel "ssw") (* 18 11.25)]
-        [(equal? kuerzel "sw" ) (* 20 11.25)]
-        [(equal? kuerzel "wsw") (* 22 11.25)]
-        [(equal? kuerzel "w"  ) (* 24 11.25)]
-        [(equal? kuerzel "wwn") (* 26 11.25)]
-        [(equal? kuerzel "wn" ) (* 28 11.25)]
-        [(equal? kuerzel "nwn") (* 30 11.25)]
-        [else 0]))
+  (* 11.25 (cond
+    [(equal? kuerzel "n"  )  0]
+    [(equal? kuerzel "nne")  2]
+    [(equal? kuerzel "ne" )  4]
+    [(equal? kuerzel "ene")  6]
+    [(equal? kuerzel "e"  )  8]
+    [(equal? kuerzel "ees") 10]
+    [(equal? kuerzel "es" ) 12]
+    [(equal? kuerzel "ses") 14]
+    [(equal? kuerzel "s"  ) 16]
+    [(equal? kuerzel "ssw") 18]
+    [(equal? kuerzel "sw" ) 20]
+    [(equal? kuerzel "wsw") 22]
+    [(equal? kuerzel "w"  ) 24]
+    [(equal? kuerzel "wwn") 26]
+    [(equal? kuerzel "wn" ) 28]
+    [(equal? kuerzel "nwn") 30]
+    [else 0])))
         
