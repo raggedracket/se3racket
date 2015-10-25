@@ -10,13 +10,13 @@
   (* 360 (/ 1 (* 2 pi) number)))
 
 ;### 1.2 ###
-;müsste costosin heissen
-(define (sintocos cosa)
+;Von sintocos zu costosin geändert
+(define (costosin cosa)
   (sqrt(- 1 (expt cosa 2))))
 
 ;alpha ist winkel der funktion
 (define (my-acos cosa)
-  (atan (/ (sintocos cosa) cosa)))
+  (atan (/ (costosin cosa) cosa)))
 
 ;### 1.3 ###
 (define(nm->km nm)
@@ -56,7 +56,7 @@
         (sin (DEGRtoRAD breiteA))))
     (*
       (cos laengeA)
-      (sintocos (distanzAB breiteA laengeA breiteB laengeB))))))
+      (costosin (distanzAB breiteA laengeA breiteB laengeB))))))
 
 ;(define (anfangskurs breiteA laengeA breiteB laengeB)
   ;(if (< (* breiteA breiteB) 0) ()))
