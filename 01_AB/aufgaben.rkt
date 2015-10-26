@@ -1,5 +1,7 @@
 #lang racket
 
+; Otis Juliusson, Jannis Krämer, Maximilian Bauregger
+; Raum F-534 - 10:15 - Finn Günther
 
 ;##### Aufgabe 1 - Konversionsfunktionen #####
 
