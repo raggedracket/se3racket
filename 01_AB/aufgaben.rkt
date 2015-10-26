@@ -10,7 +10,7 @@
   (* 360 (/ 1 (* 2 pi) number)))
 
 ;### 1.2 ###
-;Von sintocos zu costosin geändert
+;Wandelt Cosinus zu Sinus um
 (define (costosin cosa)
   (sqrt(- 1 (expt cosa 2))))
 
@@ -19,6 +19,7 @@
   (atan (/ (costosin cosa) cosa)))
 
 ;### 1.3 ###
+;Wandelt nautische Meilen in km um
 (define(nm->km nm)
   (* nm 1.852))
 
@@ -41,9 +42,10 @@
     60
     (RADtoDEGR (my-acos (distanz breiteA laengeA breiteB laengeB)))))
 
-;(distanzAB 59.93 10.75 22.20 114.10)
-;(distanzAB 37.75 -122.45 21.32 -157.83)
-;(distanzAB -27.10 -109.40 -12.10 -77.05)
+;Entfernungsfunktionen:
+;Oslo - Hongkong: (distanzAB 59.93 10.75 22.20 114.10)
+;San Francisco - Honolulu: (distanzAB 37.75 -122.45 21.32 -157.83)
+;Osterinsel - Lima: (distanzAB -27.10 -109.40 -12.10 -77.05)
 
 
 ;### 2.2 ###
@@ -57,9 +59,6 @@
     (*
       (cos laengeA)
       (costosin (distanzAB breiteA laengeA breiteB laengeB))))))
-
-;(define (anfangskurs breiteA laengeA breiteB laengeB)
-  ;(if (< (* breiteA breiteB) 0) ()))
 
 
 ;### 2.3 ###
