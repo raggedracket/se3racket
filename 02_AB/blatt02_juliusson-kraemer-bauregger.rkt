@@ -117,4 +117,56 @@
 ;##### Aufgabe 2 - #####
 
 ;### 2.1 ###
+(define (fak n)
+	(if (equal? 0 n)
+          1
+          (* n (fak (- n 1))))
+)
 
+;### 2.2 ###
+(define (power r n)
+  (if (equal? 0 n)
+      1
+      (if (odd? n)
+          (* r (power r (- n 1))) ;ungerade
+          (sqr (power r (/ n 2))) ;gerade
+)))
+
+;### 2.3 ###
+
+(define (euler precision)
+  (* (power 10 1001) (/ (+ 1 (eulerCalc 1 1000)) 2)))
+  
+(define (eulerCalc rowPos precision)
+  (if
+   (<
+    (/ (+ rowPos 1)(fak rowPos))
+    (/ 1 (power 10 precision))
+   )
+   0
+   (+
+    (/
+     (+ rowPos 1)
+     (fak rowPos)
+    )
+    (eulerCalc (+ rowPos 1) precision)
+   )
+  )
+)
+
+;##### Aufgabe 3 #####
+
+(define (type-of expr)
+  (cond
+    [(boolean?   expr) 'boolean]
+    [(number?    expr) 'number]
+    [(string?    expr) 'string]
+    [(char?      expr) 'char]
+    [(vector?    expr) 'vector]
+    [(list?      expr) 'list]
+    [(pair?      expr) 'pair]
+    [(procedure? expr) 'procedure]
+    [(symbol?    expr) 'symbol]
+    [else              'UnknownType]
+    )
+)
