@@ -52,12 +52,16 @@
 
 
 ;### 1.2 ###
-;Findet einen Char in der Liste und gibt den zugehörigen Schlüssel aus
+;Findet einen Char in der Liste und gibt den zugehörigen Schlüssel aus.
 (define (buchstabiere char)
   (car (reverse (assoc (char-upcase char) *buchstabiertafel))))
 
 
 ;### 1.3 ###
+;Übersetzt den gegebenen char in einen Integer-Wert. Wenn der char im Bereich der
+;Kleinbuchstaben (zwischen 97 und 122) liegt wird er durch Subtraktion der Anzahl
+;von Buchstaben zwischen den jeweiligen Groß- und Kleinbuchstaben (32) zu einem
+;Großbuchstaben gemacht und wieder zu einem char gemacht.
 (define (uppercase char)
   (if
    (and
@@ -90,6 +94,9 @@
 ;##### Aufgabe 2 - #####
 
 ;### 2.1 ###
+;Diese Liste weist jedem Buchstaben sowie den Zahlen 1-9 und Punkt und Komma einen Schlüssel zu,
+;aus dem das Flaggenpaket eine Flagge machen kann.
+;TODO Begründung
 (define *flaggenalphabet
   '((#\A A )
     (#\B B )
@@ -129,9 +136,11 @@
     (#\9 Z9)))
 
 ;### 2.2 ###
+;Findet einen Char in der Liste und gibt die dazugehörige Flagge aus.
 (define (flagge char)
   (eval (car (reverse (assoc (char-upcase char) *flaggenalphabet)))))
 
+;### 2.3 ###
 (define (flaggentext text)
   (flaggenlist (string->list text)))
   
