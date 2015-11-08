@@ -3,6 +3,8 @@
 ; Otis Juliusson, Jannis Krämer, Maximilian Bauregger
 ; Raum F-534 - Di, 10:15 - Finn Günther
 
+(require se3-bib/flaggen-module)
+
 ;##### Aufgabe 1 - #####
 
 ;### 1.1 ###
@@ -35,30 +37,51 @@
      (#\X X-Ray)
      (#\Y Yankee)
      (#\Z Zulu)
-     (0 Nadazero)
-     (1 Unaone)
-     (2 Bissotwo)
-     (3 Terrathree)
-     (4 Kartefour)
-     (5 Pantafive)
-     (6 Soxisix)
-     (7 Setteseven)
-     (8 Oktoeight)
-     (9 Novenine)
+     (#\0 Nadazero)
+     (#\1 Unaone)
+     (#\2 Bissotwo)
+     (#\3 Terrathree)
+     (#\4 Kartefour)
+     (#\5 Pantafive)
+     (#\6 Soxisix)
+     (#\7 Setteseven)
+     (#\8 Oktoeight)
+     (#\9 Novenine)
      (#\, Decimal)
      (#\. Stop) ))
+
 
 ;### 1.2 ###
 ;Findet einen Char in der Liste und gibt den zugehörigen Schlüssel aus
 (define (buchstabiere char)
-  (car (reverse (assoc char *buchstabiertafel))))
+  (car (reverse (assoc (char-upcase char) *buchstabiertafel))))
+
 
 ;### 1.3 ###
+(define (uppercase char)
+  (if
+   (and
+    (char? char)
+    (>= (char->integer char) 97)
+    (<= (char->integer char) 122))
+   (integer->char (- (char->integer char) 32))
+   char)
+)
+
+
+;### 1.4 ###
 ;Fügt einen String aus dem Schlüssel des ersten Buchstabens zusammen,
 ;lässt dann den ersten buchstaben abschneiden und ruft sich rekursiv erneut auf,
 ;bis nur der leere String übrigbleibt.
 (define (buchstabieretext text)
-      (string-append (symbol->string (buchstabiere (car (string->list text)))) " " (if (> (string-length text) 1) (buchstabieretext (cutstring text)) "" )))
+    (string-append
+        (symbol->string (buchstabiere (car (string->list text))))
+        " "
+        (if (> (string-length text) 1)
+            (buchstabieretext (cutstring text))
+            "")
+    )
+)
 
 ;Wandelt den String in eine Liste um, entfernt das erste Element und gibt wieder einen String zurück
 (define (cutstring text)
@@ -67,4 +90,55 @@
 ;##### Aufgabe 2 - #####
 
 ;### 2.1 ###
+(define *flaggenalphabet
+  '((#\A A )
+    (#\B B )
+    (#\C C )
+    (#\D D )
+    (#\E E )
+    (#\F F )
+    (#\G G )
+    (#\H H )
+    (#\I I )
+    (#\J J )
+    (#\K K )
+    (#\L L )
+    (#\M M )
+    (#\N N )
+    (#\O O )
+    (#\P P )
+    (#\Q Q )
+    (#\R R )
+    (#\S S )
+    (#\T T )
+    (#\U U )
+    (#\V V )
+    (#\W W )
+    (#\X X )
+    (#\Y Y )
+    (#\Z Z )
+    (#\0 Z0)
+    (#\1 Z1)
+    (#\2 Z2)
+    (#\3 Z3)
+    (#\4 Z4)
+    (#\5 Z5)
+    (#\6 Z6)
+    (#\7 Z7)
+    (#\8 Z8)
+    (#\9 Z9)))
 
+;### 2.2 ###
+(define (flagge char)
+  (eval (car (reverse (assoc (char-upcase char) *flaggenalphabet)))))
+
+(define (flaggentext text)
+  (flaggenlist (string->list text)))
+  
+(define (flaggenlist xs)
+  (if (empty? xs)
+    '()
+    (cons
+     (flagge (car xs))
+     (flaggenlist (cdr xs)))))
+     
