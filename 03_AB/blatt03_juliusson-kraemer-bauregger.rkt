@@ -9,7 +9,8 @@
 
 ;### 1.1 ###
 ;Diese Liste weist jedem Buchstaben sowie den Zahlen 1-9 und Punkt und Komma einen Schlüssel zu.
-;TODO: Begründung
+;Diese ist als Liste von Listen gestaltet, um Listenbefehle und -operationen
+;wie assoc und reverse benutzen zu können.
 (define *buchstabiertafel
   '( (#\A Alfa)
      (#\B Bravo)
@@ -96,7 +97,8 @@
 ;### 2.1 ###
 ;Diese Liste weist jedem Buchstaben sowie den Zahlen 1-9 und Punkt und Komma einen Schlüssel zu,
 ;aus dem das Flaggenpaket eine Flagge machen kann.
-;TODO Begründung
+;Diese ist als Liste von Listen gestaltet, um Listenbefehle und -operationen
+;wie assoc und reverse benutzen zu können.
 (define *flaggenalphabet
   '((#\A A )
     (#\B B )
@@ -141,9 +143,13 @@
   (eval (car (reverse (assoc (char-upcase char) *flaggenalphabet)))))
 
 ;### 2.3 ###
+;Wandelt den Eingabestring in eine liste um und ruft dann damit die Funktion flaggenlist auf.
 (define (flaggentext text)
   (flaggenlist (string->list text)))
   
+;Erstellt rekursiv eine Liste durch Aneinanderreihung von Paare, indem immer die Flagge
+;des ersten Listenbuchstaben mit (flaggenlist RestDerListe) und schließlich zum Abschluß
+;dem leeren Paar gepaart werden.
 (define (flaggenlist xs)
   (if (empty? xs)
     '()
