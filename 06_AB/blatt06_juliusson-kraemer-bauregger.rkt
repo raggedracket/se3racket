@@ -3,6 +3,9 @@
 ; Otis Juliusson, Jannis Krämer, Maximilian Bauregger
 ; Raum F-534 - Di, 10:15 - Finn Günther
 
+(require 2htdp/image)
+(require lang/posn)
+
 ;##### Aufgabe 1 #####
 
 ;##kopfstueck##
@@ -34,16 +37,9 @@
 ; indirekte Rekursion: Ja, da merge aufgerufen wird und merge durch die als Argumente übergebenen Funktionsaufrufe wieder merge-sort aufruft.
 
 
-;##### Aufgabe 2.1 #####
+;##### Aufgabe 2 #####
 
-(define (insertion-sort ord xs xs_sorted)
-  (if (empty? xs)
-      xs_sorted
-      (insertion-sort ord (cdr xs)
-                      (let-values ([(xs_in xs_out) (partition (lambda (x)(ord x (car xs))) xs_sorted)])
-                        (append xs_in (list (car xs)) xs_out)))))
-
-;##### Aufgabe 2.2 #####
+;##### 2.2
 
 ; First try - does not work
 ; Please do not evaluate
@@ -64,7 +60,7 @@
          (append
           (quick-sort-faulty ord xs_ord)
           (list (car xs_notord))
-          (quick-sort ord-faulty (cdr xs_notord)))))))
+          (quick-sort-faulty ord (cdr xs_notord)))))))
 
 
 ; Sort the given list with quick sort
@@ -78,3 +74,106 @@
         (append (quick-sort ord xs_in)
                 (list (car xs_out))               ;the pivot is still the first element in xs_out
                 (quick-sort ord (cdr xs_out)))))) ;remove pivot and sort the rest
+
+
+;##### 2.1
+
+; Sort the given list with insertion sort
+;   ord: function to order elements
+;   xs: list to sort
+;   xs_sorted: recursion/call function with '()
+(define (insertion-sort ord xs xs_sorted)
+  (if (empty? xs)
+      xs_sorted
+      (insertion-sort ord (cdr xs)
+                      (let-values ([(xs_in xs_out) (partition (lambda (x)(ord x (car xs))) xs_sorted)])
+                        (append xs_in (list (car xs)) xs_out)))))
+
+
+;##### 2.3
+
+;Some images
+(define icons
+  (list
+   (star-polygon 35 5 2 "solid" "gold")
+   (ellipse 44 44 "solid" "red")
+   (rectangle 38 38 "solid" "blue")
+   (isosceles-triangle 45 65 "solid" "darkgreen")))
+
+;Some more images
+(define icons2
+  (list
+   (isosceles-triangle 40 80 "solid" "darkgreen")
+   (ellipse 44 44 "solid" "red")
+   (rectangle 15 15 "outline" "red")
+   (star-polygon 35 5 2 "solid" "gold")
+   (rectangle 38 38 "solid" "blue")
+   (isosceles-triangle 45 65 "solid" "darkgreen")
+   (star-polygon 35 5 2 "solid" "gold")
+   (isosceles-triangle 50 50 "solid" "darkgreen")))
+
+
+;comparison functions
+
+;use as ord in insertion/quick sort
+;  img_small: one picture (if it is smaller, the function returns #t)
+;  img_big: another picture (if it is bigger, the function returns #t)
+(define (sort-width-asc img_small img_big)
+  (< (image-width img_small) (image-width img_big)))
+
+;use as ord in insertion/quick sort
+;  img_small: one picture (if it is smaller, the function returns #t)
+;  img_big: another picture (if it is bigger, the function returns #t)
+(define (sort-width-desc img_big img_small)
+  (< (image-width img_small) (image-width img_big)))
+
+;use as ord in insertion/quick sort
+;  img_small: one picture (if it is smaller, the function returns #t)
+;  img_big: another picture (if it is bigger, the function returns #t)
+(define (sort-height-asc img_small img_big)
+  (< (image-height img_small) (image-height img_big)))
+
+;use as ord in insertion/quick sort
+;  img_small: one picture (if it is smaller, the function returns #t)
+;  img_big: another picture (if it is bigger, the function returns #t)
+(define (sort-height-desc img_big img_small)
+  (< (image-height img_small) (image-height img_big)))
+
+
+;Sort pictures by height
+;(quick-sort sort-height-desc icons2)
+
+;Sort pictures by width
+;(insertion-sort sort-width-asc icons '())
+
+
+;##### Aufgabe 3 #####
+
+;Erschafft kleine Koch-Schneeflöckchen 
+(define (koch-schneeflocke)
+  (above
+   (beside
+    (rotate 60 (koch-curve 3))
+    (rotate 300 (koch-curve 3)))
+   (rotate 180 (koch-curve 3))))
+
+;Erschafft rekursiv durch viele kleine quadrate eine Koch Kurve
+(define (koch-curve n)
+  (cond
+    [(zero? n) (square 1 "solid" "black")]
+    [else
+     (beside/align "bottom"
+                   (koch-curve (- n 1))
+                   (rotate 60 (koch-curve (- n 1)))
+                   (rotate -60 (koch-curve (- n 1)))
+                   (koch-curve (- n 1)))]))
+
+;Erschafft n zufällig verteilte Schneflocken auf einen von n abhängigen Raum
+(define (schneeflocken n)
+  (place-images/align
+   (make-list n (koch-schneeflocke))
+   (make-list n (make-posn (random(* 50 n)) (random(* 50 n))))
+   ; das kackding generiert eine Random number und packt sie n mal in eine liste und ich finde nicht heraus wie man n mal random numbers generated
+   "right"
+   "bottom"
+   (rectangle (* 100 n) (* 100 n) "solid" "LightCyan") ))
