@@ -173,7 +173,8 @@
   (place-images/align
    (make-list n (koch-schneeflocke))
    (make-list n (make-posn (random(* 50 n)) (random(* 50 n))))
-   ; das kackding generiert eine Random number und packt sie n mal in eine liste und ich finde nicht heraus wie man n mal random numbers generated
+   ; generiert leider eine random nummer und diese mal in eine liste
+   ; und leider nicht n verschiedene random nummern
    "right"
    "bottom"
    (rectangle (* 100 n) (* 100 n) "solid" "LightCyan") ))
