@@ -5,8 +5,38 @@
 
 ;##### Aufgabe 1 - #####
 
-;### 1.1 ###
-;# 1.1.1
+;### Allgemein rekursive Lösung ###
+(define (range tupel n)
+   (if (>= (car tupel) (cdr tupel))
+       '()
+       (cons (car tupel) (range (cons (+ (car tupel) (/ (cdr tupel) n))  (cdr tupel)) n))
+    )
+  )
+
+;### Endrekursive Lösung ###
+(define (range2 tupel n [akku '()])
+   (if (>= (car tupel) (cdr tupel))
+       (reverse akku)
+       (range2
+        (cons 
+         (+ (car tupel) (/ (cdr tupel) n))
+         (cdr tupel)
+         )
+         n
+         (cons (car tupel) akku))
+    )
+  )
+
+;### Lösung mittels geeigneter Funktion höherer Ordnung ###
+(define (range3 tupel n)
+  (build-list
+   n
+   (lambda (x) 
+     (* x (/ (cdr tupel) n))
+     )
+   )
+  )
+
 
 ;##### Aufgabe 2 - #####
 
