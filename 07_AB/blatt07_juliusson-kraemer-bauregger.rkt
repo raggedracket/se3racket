@@ -64,7 +64,7 @@
          (+ (car scale)
             (* x
                (/ (- (cdr scale)(car scale))
-                  (- (last list) (car list))))))
+                  (- (apply max list) (apply min list))))))
        list))
 
 
@@ -89,7 +89,7 @@
 (define (draw-points marker xs)
   (place-images
    (append
-    (make-list (length xs) (ellipse 2 2 "solid" "black"))
+    (make-list (length xs) (ellipse 2 2 "solid" "lila"))
     (list (ellipse 5 5 "solid" "red")))
    (pointlist->posn (append xs (list (list-ref xs marker))))
    (empty-scene draw_width draw_height "white")))
@@ -108,7 +108,7 @@
                (rescale2d
                 (function->points f interval n)
                 '(0 . 800)
-                '(330 . 250))))
+                '(300 . 0))))
 
 
 ;### 2.5 ###
@@ -119,15 +119,15 @@
                (rescale2d
                 (function->points f interval n)
                 '(0 . 800)
-                '(330 . 250))))
+                '(400 . 100))))
 
 ; Beispiele:
 ;
 ;(live-plot-function sin '(0 . 7) 100 150)
 ;
 ;(animate (curry live-plot-function sin (cons 0 25) 150))
-;(animate (curry live-plot-function sin (cons 0 7) 100))
-;(animate (curry live-plot-function tan (cons 0 7) 150))
+;(animate (curry live-plot-function sin (cons 0 6) 100))
+;(animate (curry live-plot-function tan (cons 0 4) 500))
 ;
 ;f(x) = sin(x)*cos(x/2)
-;(animate (curry live-plot-function (lambda (x)(* (sin x)(cos (/ x 2)))) (cons 0 37) 150))
+;(animate (curry live-plot-function (lambda (x)(* (sin x)(cos (/ x 2)))) (cons 0 37) 100))
