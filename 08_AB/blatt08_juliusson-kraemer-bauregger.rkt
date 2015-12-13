@@ -18,6 +18,9 @@
 ;welche. Es gilt also weder (1.) noch (2.) und somit ist sie keine Funktion höherer Ordnung
 
 ;### 1.3 ###
+(define (pepper f arg1 )
+  (lambda (arg2 )
+    (f arg1 arg2)))
 
 ;### 1.4 ###
 ;(foldl (curry / 2) 1 '( 1 1 2 3 )) -> 2/3
@@ -49,11 +52,16 @@
 (define (mass-sqrt xs)
   (map sqrt xs))
 
-;### 2.2###
+;### 2.2 ###
 (require htdp/error)
-(define (dreiteilbar xs)
-  (filter (compose (curryr / 3) natural?) xs))
+(define (nteilbar n xs)
+  (map (curry * 3)
+       (filter natural?
+               (map (curryr / n) xs)
+               )
+       ))
+;(nteilbar 3 '(1 3 6 8 9 12 13 16))
 
-(define (pepper f arg1 )
-  (lambda (arg2 )
-    (f arg1 arg2)))
+;### 2.3 ###
+(define (summenfunktion xs)
+  (foldl + 0 (filter (curry < 10)(filter odd? xs))))
