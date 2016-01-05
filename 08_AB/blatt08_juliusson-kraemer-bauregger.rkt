@@ -1,7 +1,9 @@
 #lang racket
 
 ; Otis Juliusson, Jannis Krämer, Maximilian Bauregger
-; Raum F-534 - Di, 10:15 - Finn Günther
+; Raum F-534 - Di, 10:15 - Finn Günther (require "setkarten-module.rkt")
+
+(require "setkarten-module.rkt")
 
 ;##### Aufgabe 1 - #####
 
@@ -65,3 +67,49 @@
 ;### 2.3 ###
 (define (summenfunktion xs)
   (foldl + 0 (filter (curry < 10)(filter odd? xs))))
+
+
+
+;##### Aufgabe 3   #####
+
+; Lists of possible features
+(define pattern (list 'oval 'rectangle 'waves))
+(define color (list 'red 'green 'blue))
+(define quantitys (list 'one 'two 'three))
+(define mode (list 'outline 'hatched 'solid))
+
+; build function
+(define (make-setcard pattern color quantity mode)(list pattern color quantity mode))
+
+; get functions
+(define (get-pattern card)(first color))
+(define (get-color card)(second color))
+(define (get-quantity card)(third color))
+(define (get-mode card)(fourth color))
+
+; generate all possible list indices
+(define (gen-combinations)
+  (build-list 81 (lambda (x)(list (modulo x 3)
+                                  (floor (/ (modulo x 9)  3))
+                                  (floor (/ (modulo x 27) 9))
+                                  (floor (/ (modulo x 81) 27))))))
+; generate the cards
+(define (gen-cards)
+  (map
+    (lambda (xs)
+      (make-setcard
+        (list-ref pattern (first xs))
+        (list-ref color (second xs))
+        (+ 1 (third xs))
+        (list-ref mode (fourth xs))))
+    (gen-combinations)))
+
+; map generated cards to draw function
+(define (draw-cards xs_cards)
+  (map
+    (lambda (xs)
+      (show-set-card (third xs)
+                     (first xs)
+                     (fourth xs)
+                     (second xs)))
+    (gen-cards)))
