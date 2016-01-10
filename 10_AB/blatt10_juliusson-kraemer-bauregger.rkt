@@ -15,23 +15,37 @@
                8 0 2 0 0 0 0 0 0
                0 0 4 2 0 0 0 0 8))
 
-;(define (xy->index x y)
-;  ())
+(define (xy->index x y)
+  (+ x (* y 9)))
 
-;(define (row->idx row)
-;  ())
+(define (row->idx row)
+  (build-list 9 (lambda (x)
+                  (xy->index x row))))
 
-;(define (column->idx col)
-;  ())
+(define (column->idx col)
+  (build-list 9 (lambda (x)
+                  (xy->index col x))))
 
-;(define (quadr->idx quadr)
-;  ())
+(define (quadr->idx quadr)
+  (build-list 9 (lambda (x)
+                  (xy->index
+                   (+ (modulo (* quadr 3) 9)
+                      (modulo x 3))
+                   (+ (floor (/ x 3))
+                      (* 3 (floor (/ quadr 3))))))))
 
-;(define (game->entries game idx)
-;  ())
+(define (game->entries game idx)
+  (map (lambda (x)
+         (vector-ref game x))
+       idx))
 
-;(define (game-consistent? game)
-;  ())
+(define (part-consistent? part)
+  (not (check-duplicates (filter positive? part))))
 
-;(define (game-solved? game)
-;  ())
+(define (game-consistent? game)
+  (and
+   (andmap part-consistent? (build-list 9 (lambda (x)(game->entries game (row->idx x)))))
+   (andmap part-consistent? (build-list 9 (lambda (x)(game->entries game (column->idx x)))))
+   (andmap part-consistent? (build-list 9 (lambda (x)(game->entries game (quadr->idx x)))))))
+
+;(define (game-solved? game))
